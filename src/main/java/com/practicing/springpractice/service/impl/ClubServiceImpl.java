@@ -6,9 +6,7 @@ import com.practicing.springpractice.repository.ClubRepository;
 import com.practicing.springpractice.service.ClubService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class ClubServiceImpl implements ClubService {
@@ -27,7 +25,8 @@ public class ClubServiceImpl implements ClubService {
     }
 
     @Override
-    public Club saveClub(Club club) {
+    public Club saveClub(ClubDto clubDto) {
+        Club club = mapToClub(clubDto);
         return clubRepository.save(club);
     }
 
@@ -41,6 +40,17 @@ public class ClubServiceImpl implements ClubService {
     public void updateClub(ClubDto clubDto) {
         Club club = mapToClub(clubDto);
         clubRepository.save(club);
+    }
+
+    @Override
+    public void delete(Long clubId) {
+        clubRepository.deleteById(clubId);
+    }
+
+    @Override
+    public List<ClubDto> searchClubs(String query) {
+        List<Club> clubs = clubRepository.searchClubs(query);
+        return clubs.stream().map(this::mapToClubDto).toList();
     }
 
     private Club mapToClub(ClubDto clubDto) {
