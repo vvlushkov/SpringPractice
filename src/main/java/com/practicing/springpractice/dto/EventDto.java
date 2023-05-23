@@ -1,5 +1,6 @@
 package com.practicing.springpractice.dto;
 
+import com.practicing.springpractice.model.Club;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -33,4 +34,5 @@ public class EventDto {
     private String photoUrl;
     private LocalDateTime createdOn;
     private LocalDateTime updatedOn;
+    private Club club;
 }

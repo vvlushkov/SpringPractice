@@ -1,12 +1,16 @@
 package com.practicing.springpractice.service.impl;
 
 import com.practicing.springpractice.dto.ClubDto;
+import com.practicing.springpractice.mapper.ClubMapper;
 import com.practicing.springpractice.model.Club;
 import com.practicing.springpractice.repository.ClubRepository;
 import com.practicing.springpractice.service.ClubService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+
+import static com.practicing.springpractice.mapper.ClubMapper.mapToClub;
+import static com.practicing.springpractice.mapper.ClubMapper.mapToClubDto;
 
 @Service
 public class ClubServiceImpl implements ClubService {
@@ -21,7 +25,7 @@ public class ClubServiceImpl implements ClubService {
     @Override
     public List<ClubDto> findAllClubs() {
         List<Club> clubs = clubRepository.findAll();
-        return clubs.stream().map(this::mapToClubDto).toList();
+        return clubs.stream().map(ClubMapper::mapToClubDto).toList();
     }
 
     @Override
@@ -50,28 +54,6 @@ public class ClubServiceImpl implements ClubService {
     @Override
     public List<ClubDto> searchClubs(String query) {
         List<Club> clubs = clubRepository.searchClubs(query);
-        return clubs.stream().map(this::mapToClubDto).toList();
-    }
-
-    private Club mapToClub(ClubDto clubDto) {
-        return Club.builder()
-                .id(clubDto.getId())
-                .title(clubDto.getTitle())
-                .photoUrl(clubDto.getPhotoUrl())
-                .content(clubDto.getContent())
-                .createdOn(clubDto.getCreatedOn())
-                .updatedOn(clubDto.getUpdatedOn())
-                .build();
-    }
-
-    private ClubDto mapToClubDto(Club club) {
-        return ClubDto.builder()
-                .id(club.getId())
-                .title(club.getTitle())
-                .photoUrl(club.getPhotoUrl())
-                .content(club.getContent())
-                .createdOn(club.getCreatedOn())
-                .updatedOn(club.getUpdatedOn())
-                .build();
+        return clubs.stream().map(ClubMapper::mapToClubDto).toList();
     }
 }
